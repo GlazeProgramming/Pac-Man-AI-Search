@@ -70,9 +70,7 @@ func _ready():
 func _process(delta):
 	if !run_away_timer.is_stopped() && run_away_timer.time_left < run_away_timer.wait_time / 2 && !is_blinking:
 		start_blinking()
-	move_ghost(navigation_agent_2d.get_next_path_position(), delta)
-
-	
+	move_ghost(navigation_agent_2d.get_next_path_position(), delta)	
 
 func move_ghost(next_position: Vector2, delta: float):
 	
@@ -164,10 +162,11 @@ func start_chasing_pacman():
 	current_state = GhostState.CHASE
 	update_chasing_target_position_timer.start()
 	navigation_agent_2d.target_position = chasing_target.position
-
+	calculate_path_to_target(chasing_target.position)
 
 func _on_update_chasing_target_position_timer_timeout():
 	navigation_agent_2d.target_position = chasing_target.position
+	calculate_path_to_target(chasing_target.position)
 	
 func start_chasing_pacman_after_being_eaten():
 	start_chasing_pacman()
@@ -224,4 +223,24 @@ func _on_body_entered(body):
 		player.die()
 		scatter_timer.wait_time = 600
 		scatter()
+
+func calculate_path_to_target(target_position: Vector2):
+	# Pathfinding logic based on ghost type
+	match ghost_type:
+		"scarlet":  # Greedy pathfinding (A*)
+			navigation_agent_2d.target_position = target_position
+		"blush":  # Prediction-based pathfinding
+			var pacman_velocity = chasing_target.velocity 
+			var prediction_offset = pacman_velocity.normalized() * 4 * tile_map.get_cell_size().x
+			navigation_agent_2d.target_position = chasing_target.position + prediction_offset
+		"azure":  # Combined targeting
+			var scarlet_position = movement_targets.get_scarlet_position(get_parent())
+			var midpoint = (scarlet_position + chasing_target.position) / 2
+			navigation_agent_2d.target_position = midpoint
+		"amber":  # Proximity-based switching
+			if global_position.distance_to(chasing_target.position) < 5 * tile_map.get_cell_size().x:
+				navigation_agent_2d.target_position = chasing_target.position
+			else:
+				navigation_agent_2d.target_position = tile_map.get_random_empty_cell()
+
 	
