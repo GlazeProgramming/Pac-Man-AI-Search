@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://3yom8cpdwrtk"
+path="res://.godot/imported/Pixel Party.mp3-70235ba0ea5e17ddd1dc242ff44187e7.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/Pixel Party.mp3"
+dest_files=["res://.godot/imported/Pixel Party.mp3-70235ba0ea5e17ddd1dc242ff44187e7.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dw2hec8l54okt"]
+
+[node name="Fade_transition" type="ColorRect"]
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 1)

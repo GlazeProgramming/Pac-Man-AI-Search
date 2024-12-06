@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b6j4sf1vt5qtv"
+path="res://.godot/imported/Pixel Dreams.mp3-2a174be6d36c400f7dd7b6d4164e0420.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/Pixel Dreams.mp3"
+dest_files=["res://.godot/imported/Pixel Dreams.mp3-2a174be6d36c400f7dd7b6d4164e0420.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
