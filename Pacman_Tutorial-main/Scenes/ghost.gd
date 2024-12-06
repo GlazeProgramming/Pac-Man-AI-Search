@@ -30,7 +30,7 @@ var direction = null
 var current_state: GhostState
 var is_blinking = false
 
-@export var ghost_type: String = "scarlet"  # Ghost type (scarlet, blush, azure, amber)
+@export var ghost_type: String
 @export var scatter_wait_time = 8
 @export var eaten_speed = 240
 @export var speed = 120
@@ -186,7 +186,7 @@ func run_away_from_pacman():
 	update_chasing_target_position_timer.stop()
 	scatter_timer.stop()
 	
-	var empty_cell_position = tile_map.get_random_empty_cell_position()
+	var empty_cell_position = tile_map.get_random_empty_cell()
 	navigation_agent_2d.target_position = empty_cell_position
 	
 func start_blinking():
@@ -229,14 +229,15 @@ func calculate_path_to_target(target_position: Vector2):
 	match ghost_type:
 		"scarlet":  # Greedy pathfinding (A*)
 			navigation_agent_2d.target_position = target_position
-		"blush":  # Prediction-based pathfinding
-			var pacman_velocity = chasing_target.velocity 
-			var prediction_offset = pacman_velocity.normalized() * 4 * tile_map.get_cell_size().x
-			navigation_agent_2d.target_position = chasing_target.position + prediction_offset
+		
 		"azure":  # Combined targeting
 			var scarlet_position = movement_targets.get_scarlet_position(get_parent())
 			var midpoint = (scarlet_position + chasing_target.position) / 2
 			navigation_agent_2d.target_position = midpoint
+		"blush":  # Prediction-based pathfinding
+			var pacman_velocity = chasing_target.velocity 
+			var prediction_offset = pacman_velocity.normalized() * 4 * tile_map.get_cell_size().x
+			navigation_agent_2d.target_position = chasing_target.position + prediction_offset
 		"amber":  # Proximity-based switching
 			if global_position.distance_to(chasing_target.position) < 5 * tile_map.get_cell_size().x:
 				navigation_agent_2d.target_position = chasing_target.position
