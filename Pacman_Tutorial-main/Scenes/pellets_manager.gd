@@ -29,6 +29,7 @@ func on_pellet_eaten(should_allow_eating_ghosts: bool):
 	if !chomp_sound_player.playing:
 		chomp_sound_player.play()
 	pellets_eaten += 1
+	ui.set_score(pellets_eaten)
 	
 	if should_allow_eating_ghosts:
 		power_pellet_sound_player.play()
